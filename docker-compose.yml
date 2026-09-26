@@ -1,0 +1,78 @@
+name: noir-lounge
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval 'db.runCommand({ping:1})' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  app:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: https://noir.salonix.xyz
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      NODE_ENV: production
+      NEXTAUTH_URL: https://noir.salonix.xyz
+      NEXT_PUBLIC_SITE_URL: https://noir.salonix.xyz
+      MONGODB_URI: mongodb://mongo:27017/noir-lounge
+      TRUSTED_PROXY_HOPS: "1"
+      TRUST_PLATFORM_HEADERS: "0"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    expose:
+      - "3000"
+    networks:
+      - backend
+      - edge
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/api/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+    networks:
+      - edge
+
+networks:
+  backend:
+    internal: true
+  edge:
+
+volumes:
+  mongo-data:
+  caddy-data:
+  caddy-config:

@@ -1,0 +1,19 @@
+{
+	admin off
+}
+
+noir.salonix.xyz {
+	encode gzip
+
+	# Gli header di sicurezza li emette Next.js (next.config.mjs).
+	reverse_proxy app:3000
+
+	handle /_caddy-health {
+		respond "ok" 200
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

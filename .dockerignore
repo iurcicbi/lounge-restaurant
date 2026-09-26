@@ -1,0 +1,16 @@
+# Mai nel context di build: segreti locali
+.env
+.env.*
+!.env.example
+
+# Artefatti di build locale e dipendenze ridondanti
+node_modules
+.next
+out
+coverage
+*.log
+*.tsbuildinfo
+.DS_Store
+.git
+.github
+.vercel
