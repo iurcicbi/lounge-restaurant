@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
   const rate = checkRateLimit(`newsletter:${getClientIp(request.headers)}`, 3, 60 * 60_000);
   if (!rate.allowed) {
-    return noStoreJson({ error: 'Hai già effettuato diverse richieste. Riprova più tardi.' }, { status: 429 });
+    return noStoreJson({ error: 'Ai făcut deja mai multe cereri. Încearcă mai târziu.' }, { status: 429 });
   }
 
   const body = await readJsonBody(request, 4 * 1024);
@@ -23,11 +23,11 @@ export async function POST(request: Request) {
 
   const parsed = newsletterSchema.safeParse(body.data);
   if (!parsed.success) {
-    return noStoreJson({ error: 'Inserisci un indirizzo email valido.' }, { status: 400 });
+    return noStoreJson({ error: 'Introdu o adresă de e-mail validă.' }, { status: 400 });
   }
 
   if (parsed.data.website) {
-    return noStoreJson({ message: 'Sei nella lista Noir.' }, { status: 201 });
+    return noStoreJson({ message: 'Ești pe lista Noir.' }, { status: 201 });
   }
 
   try {
@@ -37,11 +37,11 @@ export async function POST(request: Request) {
       { $setOnInsert: { email: parsed.data.email, consentAt: new Date() } },
       { upsert: true, new: true, setDefaultsOnInsert: true }
     );
-    return noStoreJson({ message: 'Sei nella lista Noir.' }, { status: 201 });
+    return noStoreJson({ message: 'Ești pe lista Noir.' }, { status: 201 });
   } catch (error: unknown) {
     if (typeof error === 'object' && error && 'code' in error && error.code === 11000) {
-      return noStoreJson({ message: 'Sei nella lista Noir.' }, { status: 201 });
+      return noStoreJson({ message: 'Ești pe lista Noir.' }, { status: 201 });
     }
-    return noStoreJson({ error: 'Iscrizione non disponibile in questo momento.' }, { status: 503 });
+    return noStoreJson({ error: 'Abonarea nu este disponibilă în acest moment.' }, { status: 503 });
   }
 }

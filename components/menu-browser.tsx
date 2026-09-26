@@ -10,9 +10,9 @@ import { cn, formatPrice } from '@/lib/utils';
 type MenuSource = 'static' | 'database' | 'fallback';
 
 const tabs = [
-  { value: 'cucina', label: 'Cucina', icon: Utensils },
+  { value: 'cucina', label: 'Bucătărie', icon: Utensils },
   { value: 'cocktails', label: 'Mixology', icon: Wine },
-  { value: 'shisha', label: 'Narghilè', icon: Cloud }
+  { value: 'shisha', label: 'Narghilă', icon: Cloud }
 ];
 
 export function MenuBrowser() {
@@ -24,7 +24,7 @@ export function MenuBrowser() {
     let active = true;
     void fetch('/api/menu')
       .then((response) => {
-        if (!response.ok) throw new Error('Menu non disponibile');
+        if (!response.ok) throw new Error('Meniu indisponibil');
         return response.json() as Promise<{ items?: MenuItem[]; source?: MenuSource }>;
       })
       .then((payload) => {
@@ -44,7 +44,7 @@ export function MenuBrowser() {
 
   return (
     <Tabs.Root value={category} onValueChange={setCategory} className="space-y-8">
-      <Tabs.List aria-label="Categorie del menu" className="flex w-full gap-2 overflow-x-auto border-b border-gold/15 pb-3">
+      <Tabs.List aria-label="Categorii din meniu" className="flex w-full gap-2 overflow-x-auto border-b border-gold/15 pb-3">
         {tabs.map(({ value, label, icon: Icon }) => (
           <Tabs.Trigger key={value} value={value} className={cn('inline-flex shrink-0 items-center gap-2 rounded-full border border-gold/15 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-smoke transition hover:border-gold/50 hover:text-white', category === value && 'border-gold/65 bg-gold/10 text-gold-soft shadow-gold')}>
             <Icon size={15} strokeWidth={1.5} />{label}
@@ -64,11 +64,11 @@ export function MenuBrowser() {
               );
             })}
           </div>
-          <p className="mt-6 text-center text-xs text-smoke/60">Menu soggetto a disponibilità. Chiedi il pairing al concierge per la tua serata.</p>
+          <p className="mt-6 text-center text-xs text-smoke/60">Meniul este supus disponibilității. Cere asocierea potrivită de la concierge pentru seara ta.</p>
           <span className="sr-only">{label}</span>
         </Tabs.Content>
       ))}
-      <p className="sr-only" aria-live="polite">Menu {source === 'database' ? 'aggiornato dal database' : 'in modalità di cortesia'}.</p>
+      <p className="sr-only" aria-live="polite">Meniu {source === 'database' ? 'actualizat din baza de date' : 'în modul de curtoazie'}.</p>
     </Tabs.Root>
   );
 }

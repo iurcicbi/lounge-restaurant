@@ -6,18 +6,18 @@ import { CalendarDays, Cloud, Home, MapPin, Utensils } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const items = [
-  { label: 'Home', href: '/', icon: Home },
+  { label: 'Acasă', href: '/', icon: Home },
   { label: 'Menu', href: '/menu', icon: Utensils },
-  { label: 'Prenota', href: '/prenotazioni', icon: CalendarDays },
-  { label: 'Narghilè', href: '/narghile', icon: Cloud },
-  { label: 'Contatti', href: '/contatti', icon: MapPin }
+  { label: 'Rezervă', href: '/prenotazioni', icon: CalendarDays },
+  { label: 'Narghilă', href: '/narghile', icon: Cloud },
+  { label: 'Contacte', href: '/contatti', icon: MapPin }
 ];
 
 export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Navigazione mobile rapida" className="safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-gold/15 bg-black/90 backdrop-blur-xl lg:hidden">
+    <nav aria-label="Navigație mobilă rapidă" className="safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-gold/15 bg-black/90 backdrop-blur-xl lg:hidden">
       <div className="grid h-16 grid-cols-5 px-1">
         {items.map(({ label, href, icon: Icon }) => {
           const active = pathname === href;

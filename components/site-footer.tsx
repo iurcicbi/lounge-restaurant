@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div className="space-y-5">
             <Logo />
-            <p className="max-w-xs text-sm leading-6 text-smoke">Alta cucina notturna, mixology d’autore ed esclusiva selezione di shisha in un ambiente raffinato e discreto.</p>
+            <p className="max-w-xs text-sm leading-6 text-smoke">Bucătărie nocturnă de autor, mixologie de el și selecție exclusivă de shisha într-un ambient rafinat și discret.</p>
             <div className="flex items-center gap-2">
               <Link href="/contatti" aria-label="Instagram Noir Lounge" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gold/20 text-gold-soft transition hover:border-gold/60 hover:bg-gold/10">
                 <Instagram size={16} strokeWidth={1.5} />
@@ -24,7 +24,7 @@ export function SiteFooter() {
             </div>
           </div>
           <div className="space-y-5">
-            <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-soft">Dove siamo</h2>
+            <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-soft">Unde suntem</h2>
             <div className="space-y-3 text-sm text-smoke">
               <p className="flex gap-2 text-white"><MapPin size={16} className="mt-0.5 shrink-0 text-gold" strokeWidth={1.5} />Via Monte Napoleone 14</p>
               <p className="pl-6">20121 Milano, Italia</p>
@@ -33,18 +33,18 @@ export function SiteFooter() {
             </div>
           </div>
           <div className="space-y-5">
-            <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-soft">Orari</h2>
+            <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-soft">Program</h2>
             <div className="space-y-3 text-sm text-smoke">
-              <div className="flex justify-between gap-4"><span>Mar – Gio</span><span className="text-gold-soft">19:00 – 02:00</span></div>
-              <div className="flex justify-between gap-4"><span>Ven – Sab</span><span className="text-gold-soft">19:00 – 03:30</span></div>
+              <div className="flex justify-between gap-4"><span>Mar – Joi</span><span className="text-gold-soft">19:00 – 02:00</span></div>
+              <div className="flex justify-between gap-4"><span>Vin – Sâm</span><span className="text-gold-soft">19:00 – 03:30</span></div>
               <div className="flex justify-between gap-4"><span>Domenica</span><span className="text-gold-soft">18:30 – 01:30</span></div>
-              <div className="flex justify-between gap-4 border-t border-gold/10 pt-3"><span>Lunedì</span><span>Chiuso</span></div>
+              <div className="flex justify-between gap-4 border-t border-gold/10 pt-3"><span>Luni</span><span>Închis</span></div>
             </div>
-            <p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-gold-soft"><span className="gold-dot animate-pulse" />Shisha Sommelier in sala</p>
+            <p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-gold-soft"><span className="gold-dot animate-pulse" />Shisha Sommelier în sală</p>
           </div>
           <div className="space-y-5">
             <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-soft">Club privé</h2>
-            <p className="text-sm leading-6 text-smoke">Ricevi inviti riservati per degustazioni, masterclass e selezioni musicali.</p>
+            <p className="text-sm leading-6 text-smoke">Primești invitații rezervate pentru degustări, masterclass-uri și selecții muzicale.</p>
             <NewsletterForm />
           </div>
         </div>
@@ -53,8 +53,8 @@ export function SiteFooter() {
           <div className="flex flex-wrap gap-5">
             <Link href="/privacy" className="transition hover:text-gold-soft">Privacy</Link>
             <Link href="/contatti" className="transition hover:text-gold-soft">Dress code</Link>
-            <Link href="/contatti" className="transition hover:text-gold-soft">Contatti</Link>
-            <Link href="/admin/login" className="transition hover:text-gold-soft">Staff access <ArrowUpRight size={12} className="inline" /></Link>
+            <Link href="/contatti" className="transition hover:text-gold-soft">Contacte</Link>
+            <Link href="/admin/login" className="transition hover:text-gold-soft">Acces staff <ArrowUpRight size={12} className="inline" /></Link>
           </div>
         </div>
       </div>

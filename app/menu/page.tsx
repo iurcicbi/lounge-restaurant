@@ -8,25 +8,25 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Menu',
-  description: 'La carta di Noir Lounge: cucina notturna, mixology d’autore e rituali narghilè.'
+  description: 'Meniul Noir Lounge: bucătărie nocturnă, mixologie de autor și ritualuri de narghilă.'
 };
 
 export default function MenuPage() {
   return (
     <>
-      <PageIntro eyebrow="La carta del lounge" title="Sapori che raccontano la notte." description="Una selezione essenziale, stagionale e senza tempo. Ogni piatto è pensato per aprire il passo al ritmo della conversazione.">
-        <Link href="/prenotazioni" className="btn-gold">Prenota la tua serata <ArrowUpRight size={16} /></Link>
+      <PageIntro eyebrow="Cartea lounge-ului" title="Savoruri care spun povestea nopții." description="O selecție esențială, de sezon și atemporală. Fiecare preparat este gândit să deschidă ritmul conversației.">
+        <Link href="/prenotazioni" className="btn-gold">Rezervă seara <ArrowUpRight size={16} /></Link>
       </PageIntro>
       <section id="content" className="section-shell py-20 lg:py-28">
         <Reveal className="mb-10 grid gap-4 sm:grid-cols-3">
-          {[{ icon: Sparkles, text: 'Ingredienti selezionati ogni settimana' }, { icon: Clock3, text: 'Cucina attiva fino alle 02:30' }, { icon: Check, text: 'Pairing e note disponibili al tavolo' }].map(({ icon: Icon, text }) => <div key={text} className="flex items-center gap-3 border border-gold/15 bg-noir-deep p-4 text-xs leading-5 text-smoke"><Icon size={17} className="shrink-0 text-gold" strokeWidth={1.5} />{text}</div>)}
+          {[{ icon: Sparkles, text: 'Ingrediente selectate în fiecare săptămână' }, { icon: Clock3, text: 'Bucătărie activă până la 02:30' }, { icon: Check, text: 'Asocieri și note disponibile la masă' }].map(({ icon: Icon, text }) => <div key={text} className="flex items-center gap-3 border border-gold/15 bg-noir-deep p-4 text-xs leading-5 text-smoke"><Icon size={17} className="shrink-0 text-gold" strokeWidth={1.5} />{text}</div>)}
         </Reveal>
         <MenuBrowser />
       </section>
       <section className="border-y border-gold/10 bg-noir-deep/50 py-20 lg:py-28">
         <div className="section-shell grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <Reveal><ImageFrame src={signatureDishes[0].image} alt="Wagyu A5 con oro edibile" className="aspect-[4/3] rounded-[1.5rem]" /></Reveal>
-          <Reveal delay={0.1}><span className="eyebrow">Dal banco alla tavola</span><h2 className="mt-4 font-display text-4xl text-white">Il gusto è un linguaggio segreto.</h2><p className="mt-5 max-w-xl text-sm leading-7 text-smoke">Il nostro team lavora con prodotti di stagione, tecniche precise e aromi che non sovrastano mai il piacere della compagnia. Raccontaci il tuo desiderio: il concierge costruirà il resto.</p><div className="mt-7 flex flex-wrap gap-2">{['Cucina d’autore', 'Mixology', 'Narghilè', 'Degustazioni'].map((item) => <span key={item} className="rounded-full border border-gold/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.12em] text-smoke">{item}</span>)}</div><Link href="/contatti" className="btn-quiet mt-8">Parla con il concierge <MapPin size={15} className="text-gold" strokeWidth={1.5} /></Link></Reveal>
+          <Reveal><ImageFrame src={signatureDishes[0].image} alt="Wagyu A5 cu aur comestibil" className="aspect-[4/3] rounded-[1.5rem]" /></Reveal>
+          <Reveal delay={0.1}><span className="eyebrow">De la tejghea la masă</span><h2 className="mt-4 font-display text-4xl text-white">Gustul este o limbă secretă.</h2><p className="mt-5 max-w-xl text-sm leading-7 text-smoke">Echipa noastră lucrează cu produse de sezon, tehnici precise și arome care nu acoperă niciodată plăcerea companiei. Spune-ne dorința ta: concierge-ul construiește restul.</p><div className="mt-7 flex flex-wrap gap-2">{['Bucătărie de autor', 'Mixologie', 'Narghilă', 'Degustări'].map((item) => <span key={item} className="rounded-full border border-gold/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.12em] text-smoke">{item}</span>)}</div><Link href="/contatti" className="btn-quiet mt-8">Vorbește cu concierge-ul <MapPin size={15} className="text-gold" strokeWidth={1.5} /></Link></Reveal>
         </div>
       </section>
     </>

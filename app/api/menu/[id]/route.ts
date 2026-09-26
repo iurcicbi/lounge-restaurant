@@ -16,13 +16,13 @@ export async function PATCH(request: Request, { params }: Context) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
   if (!isStaffSession(session)) {
-    return NextResponse.json({ error: 'Autenticazione richiesta.' }, { status: 401 });
+    return NextResponse.json({ error: 'Autentificare necesară.' }, { status: 401 });
   }
   if (!hasCapability(session, 'menu:write')) {
-    return NextResponse.json({ error: 'Permessi insufficienti.' }, { status: 403 });
+    return NextResponse.json({ error: 'Permisiuni insuficiente.' }, { status: 403 });
   }
   if (!Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ error: 'Identificativo non valido.' }, { status: 400 });
+    return NextResponse.json({ error: 'Identificator nevalid.' }, { status: 400 });
   }
 
   const crossOrigin = rejectCrossOriginRequest(request);
@@ -35,18 +35,18 @@ export async function PATCH(request: Request, { params }: Context) {
 
   const parsed = menuItemSchema.partial().safeParse(body.data);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Dati del piatto non validi.' }, { status: 400 });
+    return NextResponse.json({ error: 'Datele preparatului nu sunt valide.' }, { status: 400 });
   }
 
   try {
     await connectToDatabase();
     const item = await MenuItem.findByIdAndUpdate(id, parsed.data, { new: true }).lean();
     if (!item) {
-      return NextResponse.json({ error: 'Piatto non trovato.' }, { status: 404 });
+      return NextResponse.json({ error: 'Preparat negăsit.' }, { status: 404 });
     }
     return NextResponse.json({ item });
   } catch {
-    return NextResponse.json({ error: 'Impossibile aggiornare il piatto.' }, { status: 503 });
+    return NextResponse.json({ error: 'Nu a fost posibil să actualizăm preparatul.' }, { status: 503 });
   }
 }
 
@@ -54,13 +54,13 @@ export async function DELETE(request: Request, { params }: Context) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
   if (!isStaffSession(session)) {
-    return NextResponse.json({ error: 'Autenticazione richiesta.' }, { status: 401 });
+    return NextResponse.json({ error: 'Autentificare necesară.' }, { status: 401 });
   }
   if (!hasCapability(session, 'menu:write')) {
-    return NextResponse.json({ error: 'Permessi insufficienti.' }, { status: 403 });
+    return NextResponse.json({ error: 'Permisiuni insuficiente.' }, { status: 403 });
   }
   if (!Types.ObjectId.isValid(id)) {
-    return NextResponse.json({ error: 'Identificativo non valido.' }, { status: 400 });
+    return NextResponse.json({ error: 'Identificator nevalid.' }, { status: 400 });
   }
 
   const crossOrigin = rejectCrossOriginRequest(request);
@@ -70,10 +70,10 @@ export async function DELETE(request: Request, { params }: Context) {
     await connectToDatabase();
     const deleted = await MenuItem.findByIdAndDelete(id).lean();
     if (!deleted) {
-      return NextResponse.json({ error: 'Piatto non trovato.' }, { status: 404 });
+      return NextResponse.json({ error: 'Preparat negăsit.' }, { status: 404 });
     }
     return NextResponse.json({ deleted: true });
   } catch {
-    return NextResponse.json({ error: 'Impossibile eliminare il piatto.' }, { status: 503 });
+    return NextResponse.json({ error: 'Nu a fost posibil să ștergem preparatul.' }, { status: 503 });
   }
 }

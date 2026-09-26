@@ -19,14 +19,14 @@ export async function PATCH(request: Request, { params }: Context) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
   if (!isStaffSession(session)) {
-    return noStoreJson({ error: 'Autenticazione richiesta.' }, { status: 401 });
+    return noStoreJson({ error: 'Autentificare necesară.' }, { status: 401 });
   }
   if (!hasCapability(session, 'reservations:write')) {
-    return noStoreJson({ error: 'Permessi insufficienti.' }, { status: 403 });
+    return noStoreJson({ error: 'Permisiuni insuficiente.' }, { status: 403 });
   }
 
   if (!Types.ObjectId.isValid(id)) {
-    return noStoreJson({ error: 'Identificativo non valido.' }, { status: 400 });
+    return noStoreJson({ error: 'Identificator nevalid.' }, { status: 400 });
   }
 
   const crossOrigin = rejectCrossOriginRequest(request);
@@ -39,7 +39,7 @@ export async function PATCH(request: Request, { params }: Context) {
 
   const status = (body.data as { status?: unknown } | null)?.status;
   if (typeof status !== 'string' || !ALLOWED_STATUSES.includes(status)) {
-    return noStoreJson({ error: 'Stato non valido.' }, { status: 400 });
+    return noStoreJson({ error: 'Stare nevalidă.' }, { status: 400 });
   }
 
   try {
@@ -53,7 +53,7 @@ export async function PATCH(request: Request, { params }: Context) {
         guests?: number;
       }>();
       if (!current) {
-        return noStoreJson({ error: 'Prenotazione non trovata.' }, { status: 404 });
+        return noStoreJson({ error: 'Rezervare negăsită.' }, { status: 404 });
       }
       const availability = await checkSlotAvailability({
         email: current.email ?? '',
@@ -63,17 +63,17 @@ export async function PATCH(request: Request, { params }: Context) {
         excludeId: id
       });
       if (!availability.available) {
-        return noStoreJson({ error: 'Slot al completo, prenotazione non confermata.' }, { status: 409 });
+        return noStoreJson({ error: 'Intervalul este complet, rezervarea nu a fost confirmată.' }, { status: 409 });
       }
     }
 
     const reservation = await Reservation.findByIdAndUpdate(id, { status }, { new: true }).lean();
     if (!reservation) {
-      return noStoreJson({ error: 'Prenotazione non trovata.' }, { status: 404 });
+      return noStoreJson({ error: 'Rezervare negăsită.' }, { status: 404 });
     }
     return noStoreJson({ reservation });
   } catch {
-    return noStoreJson({ error: 'Database non disponibile.' }, { status: 503 });
+    return noStoreJson({ error: 'Bază de date indisponibilă.' }, { status: 503 });
   }
 }
 
@@ -81,14 +81,14 @@ export async function DELETE(request: Request, { params }: Context) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
   if (!isStaffSession(session)) {
-    return noStoreJson({ error: 'Autenticazione richiesta.' }, { status: 401 });
+    return noStoreJson({ error: 'Autentificare necesară.' }, { status: 401 });
   }
   if (!hasCapability(session, 'reservations:delete')) {
-    return noStoreJson({ error: 'Permessi insufficienti.' }, { status: 403 });
+    return noStoreJson({ error: 'Permisiuni insuficiente.' }, { status: 403 });
   }
 
   if (!Types.ObjectId.isValid(id)) {
-    return noStoreJson({ error: 'Identificativo non valido.' }, { status: 400 });
+    return noStoreJson({ error: 'Identificator nevalid.' }, { status: 400 });
   }
 
   const crossOrigin = rejectCrossOriginRequest(request);
@@ -98,10 +98,10 @@ export async function DELETE(request: Request, { params }: Context) {
     await connectToDatabase();
     const reservation = await Reservation.findByIdAndDelete(id).lean();
     if (!reservation) {
-      return noStoreJson({ error: 'Prenotazione non trovata.' }, { status: 404 });
+      return noStoreJson({ error: 'Rezervare negăsită.' }, { status: 404 });
     }
     return noStoreJson({ deleted: true });
   } catch {
-    return noStoreJson({ error: 'Database non disponibile.' }, { status: 503 });
+    return noStoreJson({ error: 'Bază de date indisponibilă.' }, { status: 503 });
   }
 }

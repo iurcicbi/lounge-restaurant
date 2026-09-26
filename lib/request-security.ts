@@ -43,7 +43,7 @@ export function isSameOriginRequest(request: Request) {
 
 export function rejectCrossOriginRequest(request: Request) {
   if (isSameOriginRequest(request)) return null;
-  return NextResponse.json({ error: 'Richiesta non consentita.' }, { status: 403 });
+  return NextResponse.json({ error: 'Cerere nepermisă.' }, { status: 403 });
 }
 
 export type JsonBodyResult =
@@ -53,29 +53,29 @@ export type JsonBodyResult =
 export async function readJsonBody(request: Request, maxBytes = MAX_JSON_BODY_BYTES): Promise<JsonBodyResult> {
   const contentType = request.headers.get('content-type') ?? '';
   if (!contentType.toLowerCase().includes('application/json')) {
-    return { ok: false, status: 415, error: 'Content-Type non supportato.' };
+    return { ok: false, status: 415, error: 'Content-Type nesuportat.' };
   }
 
   const declaredLength = Number.parseInt(request.headers.get('content-length') ?? '', 10);
   if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
-    return { ok: false, status: 413, error: 'Richiesta troppo grande.' };
+    return { ok: false, status: 413, error: 'Cerere prea mare.' };
   }
 
   let raw: string;
   try {
     raw = await request.text();
   } catch {
-    return { ok: false, status: 400, error: 'Richiesta non valida.' };
+    return { ok: false, status: 400, error: 'Cerere nevalidă.' };
   }
 
   if (new TextEncoder().encode(raw).byteLength > maxBytes) {
-    return { ok: false, status: 413, error: 'Richiesta troppo grande.' };
+    return { ok: false, status: 413, error: 'Cerere prea mare.' };
   }
 
   try {
     return { ok: true, data: JSON.parse(raw) as unknown };
   } catch {
-    return { ok: false, status: 400, error: 'Richiesta non valida.' };
+    return { ok: false, status: 400, error: 'Cerere nevalidă.' };
   }
 }
 

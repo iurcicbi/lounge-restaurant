@@ -19,10 +19,10 @@ export async function GET(request: Request) {
   if (includeUnavailable) {
     const session = await getServerSession(authOptions);
     if (!isStaffSession(session)) {
-      return NextResponse.json({ error: 'Autenticazione richiesta.' }, { status: 401 });
+      return NextResponse.json({ error: 'Autentificare necesară.' }, { status: 401 });
     }
     if (!hasCapability(session, 'menu:read')) {
-      return NextResponse.json({ error: 'Permessi insufficienti.' }, { status: 403 });
+      return NextResponse.json({ error: 'Permisiuni insuficiente.' }, { status: 403 });
     }
   }
 
@@ -55,10 +55,10 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
   if (!isStaffSession(session)) {
-    return NextResponse.json({ error: 'Autenticazione richiesta.' }, { status: 401 });
+    return NextResponse.json({ error: 'Autentificare necesară.' }, { status: 401 });
   }
   if (!hasCapability(session, 'menu:write')) {
-    return NextResponse.json({ error: 'Permessi insufficienti.' }, { status: 403 });
+    return NextResponse.json({ error: 'Permisiuni insuficiente.' }, { status: 403 });
   }
 
   const crossOrigin = rejectCrossOriginRequest(request);
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
   const parsed = menuItemSchema.safeParse(body.data);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Controlla i dati del piatto.' }, { status: 400 });
+    return NextResponse.json({ error: 'Verifică datele preparatului.' }, { status: 400 });
   }
 
   try {
@@ -79,6 +79,6 @@ export async function POST(request: Request) {
     const item = await MenuItem.create(parsed.data);
     return NextResponse.json({ item }, { status: 201 });
   } catch {
-    return NextResponse.json({ error: 'Impossibile salvare il piatto.' }, { status: 503 });
+    return NextResponse.json({ error: 'Nu a fost posibil să salvăm preparatul.' }, { status: 503 });
   }
 }

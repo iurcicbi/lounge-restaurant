@@ -19,16 +19,16 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Noir Lounge — Alta cucina, mixology & shisha',
+    default: 'Noir Lounge — Bucătărie de autor, mixologie & shisha',
     template: '%s — Noir Lounge'
   },
-  description: 'Noir Lounge, santuario esclusivo di alta gastronomia, mixology d’autore e narghilè cerimoniale a Milano.',
-  keywords: ['Noir Lounge', 'ristorante Milano', 'shisha lounge', 'mixology', 'alta cucina'],
+  description: 'Noir Lounge, sanctuariu exclusiv de haute gastronomie, mixologie de autor și narghilă ceremonială la Milano.',
+  keywords: ['Noir Lounge', 'restaurant Milano', 'shisha lounge', 'mixologie', 'bucătărie de autor'],
   openGraph: {
     title: 'Noir Lounge',
-    description: 'L’arte del piacere notturno, dove il mistero incontra il lusso.',
+    description: 'Arta plăcerului nocturn, unde misterul întâlnește luxul.',
     type: 'website',
-    locale: 'it_IT'
+    locale: 'ro_RO'
   }
 };
 
@@ -42,7 +42,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className="dark">
+    <html lang="ro" className="dark">
       <body className={`${inter.variable} ${playfair.variable} bg-noir-black text-ink antialiased`}>
         <SiteShell>{children}</SiteShell>
       </body>

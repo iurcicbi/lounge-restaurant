@@ -100,24 +100,24 @@ export function isValidReservationSlot(dateValue: string, timeValue: string) {
 }
 
 export const reservationSchema = z.object({
-  name: z.string().trim().min(2, 'Inserisci il tuo nome.').max(80, 'Nome troppo lungo.'),
-  email: z.string().trim().toLowerCase().email('Inserisci un indirizzo email valido.'),
-  phone: z.string().trim().min(7, 'Inserisci un numero di telefono valido.').max(30, 'Numero troppo lungo.'),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Seleziona una data valida.').refine(isValidCalendarDate, 'Seleziona una data valida.'),
-  time: z.string().regex(/^\d{2}:\d{2}$/, 'Seleziona un orario valido.').refine(isValidClockTime, 'Seleziona un orario valido.'),
-  guests: z.number({ invalid_type_error: 'Seleziona il numero di ospiti.' }).int().min(1).max(20),
-  occasion: z.string().trim().max(80, 'Occasione troppo lunga.').optional().or(z.literal('')),
-  notes: z.string().trim().max(600, 'Le note non possono superare i 600 caratteri.').optional().or(z.literal('')),
+  name: z.string().trim().min(2, 'Introdu numele tău.').max(80, 'Numele este prea lung.'),
+  email: z.string().trim().toLowerCase().email('Introdu o adresă de e-mail validă.'),
+  phone: z.string().trim().min(7, 'Introdu un număr de telefon valid.').max(30, 'Numărul este prea lung.'),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Alege o dată validă.').refine(isValidCalendarDate, 'Alege o dată validă.'),
+  time: z.string().regex(/^\d{2}:\d{2}$/, 'Alege o oră validă.').refine(isValidClockTime, 'Alege o oră validă.'),
+  guests: z.number({ invalid_type_error: 'Alege numărul de oaspeți.' }).int().min(1).max(20),
+  occasion: z.string().trim().max(80, 'Ocazia este prea lungă.').optional().or(z.literal('')),
+  notes: z.string().trim().max(600, 'Notele nu pot depăși 600 de caractere.').optional().or(z.literal('')),
   website: z.string().max(200).optional().or(z.literal(''))
 }).superRefine((value, context) => {
   if (!isValidReservationSlot(value.date, value.time)) {
-    context.addIssue({ code: z.ZodIssueCode.custom, path: ['time'], message: 'Scegli un orario disponibile per questa data.' });
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['time'], message: 'Alege o oră disponibilă pentru această dată.' });
   }
 });
 
 export const newsletterSchema = z.object({
-  email: z.string().trim().toLowerCase().email('Inserisci un indirizzo email valido.'),
-  consent: z.boolean().refine((value) => value, 'Accetta il trattamento dei dati per ricevere inviti.'),
+  email: z.string().trim().toLowerCase().email('Introdu o adresă de e-mail validă.'),
+  consent: z.boolean().refine((value) => value, 'Acceptă prelucrarea datelor pentru a primi invitații.'),
   website: z.string().max(200).optional().or(z.literal(''))
 });
 
@@ -128,7 +128,7 @@ const approvedImageUrl = z.string().trim().max(2000).refine((value) => {
   } catch {
     return false;
   }
-}, 'Usa un’immagine HTTPS di Googleusercontent.');
+}, 'Folosește o imagine HTTPS de Googleusercontent.');
 
 export const menuItemSchema = z.object({
   name: z.string().trim().min(2).max(100),

@@ -15,10 +15,10 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
   if (!isStaffSession(session)) {
-    return noStoreJson({ error: 'Autenticazione richiesta.' }, { status: 401 });
+    return noStoreJson({ error: 'Autentificare necesară.' }, { status: 401 });
   }
   if (!hasCapability(session, 'reservations:read')) {
-    return noStoreJson({ error: 'Permessi insufficienti.' }, { status: 403 });
+    return noStoreJson({ error: 'Permisiuni insuficiente.' }, { status: 403 });
   }
 
   try {
@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     const reservations = await Reservation.find(query).sort({ date: 1, createdAt: -1 }).limit(250).lean();
     return noStoreJson({ reservations });
   } catch {
-    return noStoreJson({ error: 'Database non disponibile.' }, { status: 503 });
+    return noStoreJson({ error: 'Bază de date indisponibilă.' }, { status: 503 });
   }
 }
 
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
   const rate = checkRateLimit(`reservation:${requestKey(request)}`, 5, 10 * 60_000);
   if (!rate.allowed) {
-    return noStoreJson({ error: 'Troppe richieste. Riprova tra qualche minuto.' }, { status: 429 });
+    return noStoreJson({ error: 'Prea multe cereri. Încearcă din nou în câteva minute.' }, { status: 429 });
   }
 
   const body = await readJsonBody(request);
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   const parsed = reservationSchema.safeParse(body.data);
   if (!parsed.success) {
     return noStoreJson(
-      { error: 'Controlla i dati inseriti.', fields: parsed.error.flatten().fieldErrors },
+      { error: 'Verifică datele introduse.', fields: parsed.error.flatten().fieldErrors },
       { status: 400 }
     );
   }
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
   if (input.website) {
     return noStoreJson(
       {
-        message: 'Richiesta ricevuta. Il concierge ti contatterà a breve.',
+        message: 'Cerere primită. Concierge-ul te va contacta în curând.',
         emailSent: false,
         reservation: { id: null, status: 'pending' }
       },
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
 
   const requestedAt = parseVenueDateTime(input.date, input.time);
   if (!requestedAt || !isValidReservationSlot(input.date, input.time) || requestedAt.getTime() <= Date.now()) {
-    return noStoreJson({ error: 'Scegli una data e un orario disponibili.' }, { status: 400 });
+    return noStoreJson({ error: 'Alege o dată și o oră disponibile.' }, { status: 400 });
   }
 
   try {
@@ -84,8 +84,8 @@ export async function POST(request: Request) {
     if (!availability.available) {
       const message =
         availability.reason === 'duplicate'
-          ? 'Hai già inviato una richiesta per questo orario. Ti contatteremo a breve.'
-          : 'Questo orario è al completo. Scegli un altro orario disponibile.';
+          ? 'Ai trimis deja o cerere pentru această oră. Te vom contacta în curând.'
+          : 'Această oră este completă. Alege altă oră disponibilă.';
       return noStoreJson({ error: message }, { status: 409 });
     }
 
@@ -115,21 +115,21 @@ export async function POST(request: Request) {
       emailSent = emailResult.sent;
     } catch (error) {
       process.stderr.write(
-        `Noir Lounge: email non inviata. ${error instanceof Error ? error.message : 'errore sconosciuto'}\n`
+        `Noir Lounge: e-mail neexpedat. ${error instanceof Error ? error.message : 'eroare necunoscută'}\n`
       );
     }
 
     return noStoreJson(
       {
         message: emailSent
-          ? 'Richiesta ricevuta. Il concierge ti contatterà a breve.'
-          : 'Richiesta salvata. Il concierge ti contatterà a breve.',
+          ? 'Cerere primită. Concierge-ul te va contacta în curând.'
+          : 'Cerere salvată. Concierge-ul te va contacta în curând.',
         emailSent,
         reservation: { id: reservation._id, status: reservation.status }
       },
       { status: 201 }
     );
   } catch {
-    return noStoreJson({ error: 'Non è stato possibile salvare la prenotazione.' }, { status: 503 });
+    return noStoreJson({ error: 'Nu a fost posibil să salvăm rezervarea.' }, { status: 503 });
   }
 }

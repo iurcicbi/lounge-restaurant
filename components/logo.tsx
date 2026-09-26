@@ -8,7 +8,7 @@ type LogoProps = {
 
 export function Logo({ compact = false, className = '' }: LogoProps) {
   return (
-    <Link href="/" aria-label="Noir Lounge — torna alla home" className={`inline-flex items-center ${className}`}>
+    <Link href="/" aria-label="Noir Lounge — înapoi la acasă" className={`inline-flex items-center ${className}`}>
       <Image
         src="/noir-mark.svg"
         alt="Noir Lounge"

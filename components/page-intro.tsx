@@ -20,7 +20,7 @@ export function PageIntro({ eyebrow, title, description, children }: PageIntroPr
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-smoke sm:text-base">{description}</p>
           {children ? <div className="mt-8">{children}</div> : null}
         </Reveal>
-        <a href="#content" aria-label="Scorri alla pagina" className="mx-auto mt-12 hidden h-10 w-10 items-center justify-center rounded-full border border-gold/25 text-gold-soft transition hover:bg-gold/10 lg:flex"><ArrowDown size={16} /></a>
+        <a href="#content" aria-label="Derulează pagina" className="mx-auto mt-12 hidden h-10 w-10 items-center justify-center rounded-full border border-gold/25 text-gold-soft transition hover:bg-gold/10 lg:flex"><ArrowDown size={16} /></a>
       </div>
     </section>
   );
