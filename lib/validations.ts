@@ -1,5 +1,16 @@
 import { z } from 'zod';
 
+const defaultErrorMap = z.getErrorMap();
+
+z.setErrorMap((issue, ctx) => {
+  if (issue.code === z.ZodIssueCode.invalid_type) {
+    if (issue.received === z.ZodParsedType.undefined) return { message: 'Acest câmp este obligatoriu.' };
+    return { message: 'Valoare nevalidă.' };
+  }
+  if (issue.code === z.ZodIssueCode.invalid_enum_value) return { message: 'Alege o valoare validă.' };
+  return defaultErrorMap(issue, ctx);
+});
+
 export const VENUE_TIME_ZONE = 'Europe/Rome';
 
 function parseCalendarDate(value: string) {

@@ -92,6 +92,24 @@ test('normalizza le email per evitare duplicati', () => {
   if (newsletter.success) assert.equal(newsletter.data.email, 'ospite@example.it');
 });
 
+test('i campi mancanti restituiscono un messaggio in romeno', () => {
+  const result = reservationSchema.safeParse({});
+  assert.equal(result.success, false);
+  if (!result.success) {
+    assert.deepEqual(result.error.flatten().fieldErrors.email, ['Acest câmp este obligatoriu.']);
+  }
+  const badCategory = menuItemSchema.safeParse({
+    name: 'Negroni',
+    description: 'Gin, Campari, vermouth rosso',
+    price: 14,
+    category: 'unknown'
+  });
+  assert.equal(badCategory.success, false);
+  if (!badCategory.success) {
+    assert.deepEqual(badCategory.error.flatten().fieldErrors.category, ['Alege o valoare validă.']);
+  }
+});
+
 test('parseVenueDateTime gestisce ora legale italiana', () => {
   const winter = parseVenueDateTime('2026-01-15', '20:00');
   const summer = parseVenueDateTime('2026-07-15', '20:00');
