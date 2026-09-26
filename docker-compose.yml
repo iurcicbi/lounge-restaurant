@@ -1,5 +1,9 @@
 name: noir-lounge
 
+# In produzione il TLS lo termina il reverse proxy condiviso della VPS:
+# il vhost è in deploy/noir.conf e gira sul container nginx che ascolta 80/443.
+# La rete noir-net è condivisa con quel nginx (creata a mano: docker network create noir-net).
+
 services:
   mongo:
     image: mongo:7
@@ -7,7 +11,7 @@ services:
     volumes:
       - mongo-data:/data/db
     networks:
-      - backend
+      - db
     healthcheck:
       test: ["CMD-SHELL", "mongosh --quiet --eval 'db.runCommand({ping:1})' || exit 1"]
       interval: 10s
@@ -33,11 +37,9 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
-    expose:
-      - "3000"
     networks:
-      - backend
-      - edge
+      - db
+      - noir-net
     healthcheck:
       test:
         [
@@ -51,28 +53,11 @@ services:
       retries: 5
       start_period: 30s
 
-  caddy:
-    image: caddy:2
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy-data:/data
-      - caddy-config:/config
-    depends_on:
-      - app
-    networks:
-      - edge
-
 networks:
-  backend:
+  db:
     internal: true
-  edge:
+  noir-net:
+    external: true
 
 volumes:
   mongo-data:
-  caddy-data:
-  caddy-config:
